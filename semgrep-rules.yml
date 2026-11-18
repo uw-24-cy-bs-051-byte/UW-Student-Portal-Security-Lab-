@@ -1,0 +1,26 @@
+rules:
+  - id: dom-xss-innerhtml
+    languages: [javascript]
+    severity: ERROR
+    message: Assigning to innerHTML can cause DOM XSS (OWASP A03). Use textContent.
+    pattern: $EL.innerHTML = $X
+  - id: open-redirect-location
+    languages: [javascript]
+    severity: ERROR
+    message: Redirect target comes from a variable (open redirect). Allow-list it.
+    pattern: location.href = $X
+  - id: sensitive-data-localstorage
+    languages: [javascript]
+    severity: WARNING
+    message: localStorage is readable and editable by the user. Do not keep sensitive data or roles there.
+    pattern: localStorage.setItem(...)
+  - id: hardcoded-secret
+    languages: [javascript]
+    severity: ERROR
+    message: Hard-coded secret in source code (OWASP A07).
+    pattern-regex: (?i)(api_key|admin_password|secret|token)\s*=\s*["'][^"']+["']
+  - id: plaintext-password-field
+    languages: [javascript]
+    severity: ERROR
+    message: Password stored in plain text (OWASP A02). Store a salted hash instead.
+    pattern-regex: password\s*:\s*["'][^"']+["']

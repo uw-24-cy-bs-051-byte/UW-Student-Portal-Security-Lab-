@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UW Student Portal (training app)</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+<header><h1>UW Student Portal</h1><p class="note">Training app. Fake data only. Do not enter real passwords.</p></header>
+<main>
+<section id="loginBox">
+  <h2>Sign in</h2>
+  <form id="loginForm">
+    <label>Email <input id="email" type="text" autocomplete="off"></label>
+    <label>Password <input id="password" type="password" autocomplete="off"></label>
+    <button type="submit">Sign in</button>
+  </form>
+  <p id="loginMsg" role="alert"></p>
+  <p class="note">Demo accounts: ayesha@uw.test / ayesha123 (student)</p>
+</section>
+
+<section id="dash" class="hidden">
+  <h2 id="welcome"></h2>
+  <button id="logout">Sign out</button>
+
+  <h3>My Results</h3>
+  <form id="resultForm"><label>Student ID <input id="rid" type="text"></label><button>View result</button></form>
+  <p id="resultOut"></p>
+
+  <h3>Search courses</h3>
+  <form id="searchForm"><input id="q" type="text"><button>Search</button></form>
+  <p id="searchOut"></p>
+
+  <section id="admin" class="hidden">
+    <h3>Admin panel</h3>
+    <ul id="userList"></ul>
+  </section>
+
+  <p><a href="https://example.com/fee-policy" target="_blank">Fee policy (external)</a></p>
+</section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+name: security-scan
+on: [push, pull_request]
+jobs:
+  semgrep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install semgrep
+      - run: semgrep --config semgrep-rules.yml --error --exclude instructor .
