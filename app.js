@@ -46,8 +46,17 @@ $("loginForm").addEventListener("submit", async (e) => {
   }
   
   sessionStorage.setItem("uid", String(u.id));
+  
+  // --- ASSIGNMENT A2 FIX ---
   const next = params.get("next");
-  if (next) { location.href = next; return; }
+  const allowedPaths = ["/", "/index.html", "/UW-Student-Portal-Security-Lab-/"]; 
+  
+  if (next && allowedPaths.some(path => next.startsWith(path))) { 
+    location.assign(next); 
+    return; 
+  }
+  // -------------------------
+
   render();
 });
 
