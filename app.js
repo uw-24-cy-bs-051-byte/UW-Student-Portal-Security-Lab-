@@ -34,20 +34,41 @@ function getSession() {
   return USERS.find((x) => String(x.id) === id) || null;
 }
 
+let failedAttempts = 0;
+let lockoutTime = 0;
+
 $("loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
+  
+  // 1. Check if locked out (Assignment A2 Part c)
+  if (Date.now() < lockoutTime) {
+    const secondsLeft = Math.ceil((lockoutTime - Date.now()) / 1000);
+    $("loginMsg").textContent = `Too many failed attempts. Try again in ${secondsLeft} seconds.`;
+    return;
+  }
+
   const email = $("email").value;
   const pw = $("password").value;
   const u = USERS.find((x) => x.email === email);
   
   if (!u || (await sha256("uw" + u.id + pw)) !== u.passwordHash) {
     $("loginMsg").textContent = "Login failed for " + email;
+    
+    // 2. Increment failures and lock if >= 3
+    failedAttempts++;
+    if (failedAttempts >= 3) {
+      lockoutTime = Date.now() + 30000; // 30 seconds
+      $("loginMsg").textContent = "Too many failed attempts. Account locked for 30 seconds.";
+      failedAttempts = 0; // Reset after locking
+    }
     return;
   }
   
+  // 3. Successful login resets the counter
+  failedAttempts = 0; 
   sessionStorage.setItem("uid", String(u.id));
   
-  // --- ASSIGNMENT A2 FIX ---
+  // --- ASSIGNMENT A2: Open Redirect Fix ---
   const next = params.get("next");
   const allowedPaths = ["/", "/index.html", "/UW-Student-Portal-Security-Lab-/"]; 
   
@@ -55,7 +76,7 @@ $("loginForm").addEventListener("submit", async (e) => {
     location.assign(next); 
     return; 
   }
-  // -------------------------
+  // ---------------------------------------
 
   render();
 });
